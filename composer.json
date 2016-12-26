@@ -1,0 +1,26 @@
+{
+    "name": "buchin/bing",
+    "description": "Bing scraper: Text, Image, Video",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.2",
+        "symfony/dom-crawler": "^3.2",
+        "symfony/css-selector": "^3.2"
+    },
+    "require-dev": {
+        "kahlan/kahlan": "^3.1"
+    },
+    "license": "Halal",
+    "authors": [
+        {
+            "name": "Mochammad Masbuchin",
+            "email": "buchin@dropsugar.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Buchin\\Bing\\": "src/"
+        }
+    }
+}

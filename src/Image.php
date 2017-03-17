@@ -14,7 +14,7 @@ class Image extends Bing
 		$response = $this->client->get($this->prefix, [
 			'query' => [
 				'q' => trim($this->fullQuery),
-				'adlt' => 'strict',
+				// 'adlt' => 'strict',
 				'qft' => $this->filters
 			],
 		]);

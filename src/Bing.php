@@ -76,6 +76,7 @@ class Bing
 		$this->client = new Client([
 			'base_uri' => $this->baseUrl,
 			'verify' => false,
+			'http_errors' => false
 			]);
 	}
 

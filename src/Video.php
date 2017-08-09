@@ -35,9 +35,12 @@ class Video extends Bing
 
 			$duration = ($node->filter('span.duration')->count()) ? $node->filter('span.duration')->text() : '0:00';
 
+			$views = filter_var($node->filter('span')->last()->text(), FILTER_SANITIZE_NUMBER_INT);
+
 			$item = [
 				'title' => $title,
 				'duration' => $duration,
+				'views' => $views,
 			];
 
 			$link = $node->filter('a')->attr('href');

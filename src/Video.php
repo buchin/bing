@@ -30,10 +30,14 @@ class Video extends Bing
 		$this->crawler = new Crawler($this->content);
 
 		$results = $this->crawler->filter('td.resultCell')->each(function(Crawler $node, $i){
+
 			$title = ($node->filter('div.title span')->count()) ? $node->filter('div.title span')->attr('title') : strip_tags($node->filter('div.title')->html());
+
+			$duration = ($node->filter('span.duration')->count()) ? $node->filter('span.duration')->text() : '0:00';
 
 			$item = [
 				'title' => $title,
+				'duration' => $duration,
 			];
 
 			$link = $node->filter('a')->attr('href');

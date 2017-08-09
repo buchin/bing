@@ -29,7 +29,7 @@ class Video extends Bing
 	{
 		$this->crawler = new Crawler($this->content);
 
-		$results = $this->crawler->filter('td.resultCell a')->each(function(Crawler $node, $i){
+		$results = $this->crawler->filter('td.resultCell')->each(function(Crawler $node, $i){
 			$title = ($node->filter('div.title span')->count()) ? $node->filter('div.title span')->attr('title') : strip_tags($node->filter('div.title')->html());
 
 			$item = [
@@ -52,7 +52,7 @@ class Video extends Bing
 
 			return $item;
 		});
-		
+
 		return $results;
 	}
 }

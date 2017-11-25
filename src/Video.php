@@ -12,31 +12,12 @@ class Video extends Bing
 	public function getContent()
 	{
 		$q = http_build_query([
-				'q' => trim($this->fullQuery),
-				'qft' => '+filterui:msite-youtube.com' . $this->filters
-			]);
-
-		$ua = \Campo\UserAgent::random([
-		    'os_type' => ['Windows', 'OSX'],
-		    'device_type' => 'Desktop'
+			'q' => trim($this->fullQuery),
+			'qft' => '+filterui:msite-youtube.com' . $this->filters
 		]);
 
-		$options  = [
-			'http' => [
-				'method'     =>"GET",
-				'user_agent' =>  $ua,
-			],
-			'ssl' => [
-				"verify_peer"      => FALSE,
-				"verify_peer_name" => FALSE,
-			],
-		];
-
-		$context  = stream_context_create($options);
-
-		$response = @file_get_contents('https://www.bing.com/videos/search?' . $q . '&FORM=HDRSC3', false, $context);
-
-		file_put_contents('test.html', $response);
+		$url = 'https://www.bing.com/videos/search?' . $q . '&FORM=HDRSC3';
+		$response = @file_get_contents($url);
 
 		if(!$response){
 			return false;

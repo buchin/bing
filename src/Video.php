@@ -16,7 +16,27 @@ class Video extends Bing
 				'qft' => '+filterui:msite-youtube.com' . $this->filters
 			]);
 
-		$response = @file_get_contents($this->baseUrl . $this->prefix .'?' . $q);
+		$ua = \Campo\UserAgent::random([
+		    'os_type' => ['Windows', 'OSX'],
+		    'device_type' => 'Desktop'
+		]);
+
+		$options  = [
+			'http' => [
+				'method'     =>"GET",
+				'user_agent' =>  $ua,
+			],
+			'ssl' => [
+				"verify_peer"      => FALSE,
+				"verify_peer_name" => FALSE,
+			],
+		];
+
+		$context  = stream_context_create($options);
+
+		$response = @file_get_contents('https://www.bing.com/videos/search?' . $q . '&FORM=HDRSC3', false, $context);
+
+		file_put_contents('test.html', $response);
 
 		if(!$response){
 			return false;

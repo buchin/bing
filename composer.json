@@ -5,8 +5,7 @@
     "require": {
         "guzzlehttp/guzzle": "^6.2",
         "symfony/dom-crawler": "^3.2",
-        "symfony/css-selector": "^3.2",
-        "campo/random-user-agent": "dev-master"
+        "symfony/css-selector": "^3.2"
     },
     "require-dev": {
         "kahlan/kahlan": "^3.1"

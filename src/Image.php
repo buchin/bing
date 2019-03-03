@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 */
 class Image extends Bing
 {
-	public $prefix = 'images/search';
+	public $prefix = 'images/async';
 
 	public function getContent()
 	{
@@ -30,12 +30,15 @@ class Image extends Bing
 	{
 		$this->crawler = new Crawler($this->content);
 
-		$results = $this->crawler->filter('div.item')->each(function(Crawler $node, $i){
+		$results = $this->crawler->filter('.imgpt')->each(function(Crawler $node, $i){
+			$json = @json_decode($node->filter('a.iusc')->attr('m'));
+
 			$image = [
-				'mediaurl' => $node->filter('a.thumb')->attr('href'),
-				'link' => $node->filter('a.tit')->attr('href'),
-				'title' => $node->filter('div.des')->html(),
-				'size' => $node->filter('div.fileInfo')->html()
+				'mediaurl' => $json->murl,
+				'link' => $json->purl,
+				'title' => str_replace(['', '', ' ...'], '', $json->t),
+				'thumbnail' => $json->turl,
+				'size' => $node->filter('div.img_info span.nowrap')->html()
 			];
 
 			return $image;

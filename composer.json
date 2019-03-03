@@ -4,8 +4,8 @@
     "type": "library",
     "require": {
         "guzzlehttp/guzzle": "^6.2",
-        "symfony/dom-crawler": "^3.2",
-        "symfony/css-selector": "^3.2"
+        "symfony/dom-crawler": "^4",
+        "symfony/css-selector": "^4"
     },
     "require-dev": {
         "kahlan/kahlan": "^3.1"

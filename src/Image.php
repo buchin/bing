@@ -8,6 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class Image extends Bing
 {
 	public $prefix = 'images/async';
+	public $images, $related;
 
 	public function getContent()
 	{
@@ -38,12 +39,30 @@ class Image extends Bing
 				'link' => $json->purl,
 				'title' => str_replace(['', '', ' ...'], '', $json->t),
 				'thumbnail' => $json->turl,
-				'size' => $node->filter('div.img_info span.nowrap')->html()
+				'size' => $node->filter('div.img_info span.nowrap')->html(),
 			];
 
 			return $image;
 		});
 
+
+		$related = $this->crawler->filter('a > div.cardInfo > div > strong')->each(function(Crawler $node, $i){
+			return $node->text();
+		});
+
+		$this->images = $results;
+		$this->related = $related;
+
 		return $results;
+	}
+
+	public function getImages()
+	{
+		return $this->images;
+	}
+
+	public function getRelated()
+	{
+		return $this->related;
 	}
 }

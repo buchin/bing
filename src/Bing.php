@@ -14,6 +14,7 @@ class Bing
 	public $crawler = null;
 	public $content = null;
 	public $filters = null;
+	public $options = null;
 
 	public $query_filters = [
         'image' => [
@@ -109,12 +110,16 @@ class Bing
 
 	public function buildOptions($options)
 	{
+		$this->options = $options;
 		$type = strtolower(str_replace('Buchin\Bing\\', '', get_class($this)));
 
 		$filters = [];
 
-		foreach ($options as $key => $value) {
-			$filters[] = $this->query_filters[$type][$key][$value];
+		if(get_class($this) == 'Image'){
+
+			foreach ($options as $key => $value) {
+				$filters[] = $this->query_filters[$type][$key][$value];
+			}
 		}
 
 		return trim(implode('', $filters));

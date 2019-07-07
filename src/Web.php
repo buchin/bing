@@ -13,10 +13,10 @@ class Web extends Bing
 	public function getContent()
 	{
 		$response = $this->client->get($this->prefix, [
-			'query' => [
+			'query' => array_merge([
 					'q' => trim($this->fullQuery),
 					'format' => 'rss'
-				]
+				], $this->options)
 			]);
 
 		if($response->getStatusCode() != 200){
@@ -24,7 +24,6 @@ class Web extends Bing
 		}
 
 		$body = $this->hookBefore((string)$response->getBody());
-
 		return $body;
 	}
 

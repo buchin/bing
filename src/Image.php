@@ -29,33 +29,38 @@ class Image extends Bing
 
 	public function parseContent()
 	{
-		$this->crawler = new Crawler($this->content);
+	
+        $results = $this->crawler->filter('.imgpt')->each(function (Crawler $node, $i) {
+            $json = @json_decode($node->filter('a.iusc')->attr('m'));
+            try {
+                $size =  $node->filter('div.img_info span.nowrap')->html();
+            } catch (\InvalidArgumentException $e) { // I guess its InvalidArgumentException in this case
+                $size=  '0 x 0';
+            };
 
-		$results = $this->crawler->filter('.imgpt')->each(function(Crawler $node, $i){
-			$json = @json_decode($node->filter('a.iusc')->attr('m'));
+            $raw_image = [
+            'mediaurl' => $json->murl,
+            'link' => $json->purl,
+            'title' => str_replace(['', '', ' ...'], '', $json->t),
+            'thumbnail' => $json->turl,
+            'size' => $size,
+       
+            ];
 
-			$raw_image = [
-				'mediaurl' => $json->murl,
-				'link' => $json->purl,
-				'title' => str_replace(['', '', ' ...'], '', $json->t),
-				'thumbnail' => $json->turl,
-				'size' => $node->filter('div.img_info span.nowrap')->html(),
-			];
-
-			return $raw_image;
-		});
+            return $raw_image;
+        });
 
 
-		$related = $this->crawler->filter('a > div.cardInfo > div > strong')->each(function(Crawler $node, $i){
-			return $node->text();
-		});
+        $related = $this->crawler->filter('a > div.cardInfo > div > strong')->each(function (Crawler $node, $i) {
+            return $node->text();
+        });
 
-		$results = $this->postProcessImage($results);
+        $results = $this->postProcessImage($results);
 
-		$this->images = $results;
-		$this->related = $related;
+        $this->images = $results;
+        $this->related = $related;
 
-		return $results;
+        return $results;
 	}
 
 

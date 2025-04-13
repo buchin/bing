@@ -34,11 +34,11 @@ class Video extends Bing
         }
 
         $url =
-            "https://www.bing.com/videos/asyncv2?q=" .
+            "https://www.bing.com/videos/async/rankedans?q=" .
             $q .
-            "&async=content&first=0&count=35&dgst=RowIndex_u9*ColumnIndex_u3*TotalWidth_u864*OrdinalPosition_u35*ThumbnailWidth_u260*HeroContainerWidth_u1125*HeroContainerHeight_u275*HeroOnPage_b0*SlidesGridOnPage_b0*arn_u3*ayo_u869*cry_u2729*&IID=video.1&SFX=2&IG=" .
+            "&mmasync=1&varh=VideoResultInfiniteScroll&vdpp=VideoResultAsync&count=35&first=0&IG=" .
             $token .
-            "&CW=1385&CH=620&bop=88&form=QBFVBS";
+            "IID=vrpalis&SFX=4";
 
         $response = @file_get_contents($url);
 
@@ -48,10 +48,10 @@ class Video extends Bing
     public function parseContent()
     {
         $results = $this->crawler
-            ->filter(".dg_u .vrhdata")
+            ->filter(".mc_fgvc_u")
             ->each(function (Crawler $node, $i) {
-                $json = json_decode($node->attr("vrhm"), true);
-
+                $json_node = $node->filter('.vrhdata');
+                $json = json_decode($json_node->attr("vrhm"), true);                
                 $title = $json["vt"];
 
                 $duration = $json["du"];

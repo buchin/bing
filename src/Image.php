@@ -45,6 +45,10 @@ class Image extends Bing
             }
 
             try {
+                if (!isset($json->t) || empty($json->t) || !isset($json->desc) || empty($json->desc)) {
+                    return null;
+                }
+
                 return [
                     "url" => $json->murl,
                     "mediaurl" => $json->murl,
